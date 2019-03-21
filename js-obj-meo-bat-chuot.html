@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meo bat chuot</title>
+</head>
+<body>
+<h5>Meo bat chuot</h5>
+<button onclick="inputRat()">Nhap so chuot</button>
+<button onclick="inputCat()">Nhap so meo</button>
+<br/>
+<button onclick="catchAllRat()">Bat het chuot</button>
+<script>
+ function Rat(name,weight,speed) {
+     this.nameRat = name;
+     this.weightRat = weight;
+     this.speedRat = speed;
+     this.isDead = false;
+     this.voiceRat = function () {
+         alert('Chit chit !');
+     }
+ }
+ function Cat(name, weight, speed) {
+     this.nameCat = name;
+     this.weightCat = weight;
+     this.speedCat = speed;
+     this.voiceCat = function () {
+         alert('meo meo !');
+     };
+     this.catchRat = function(rat){
+         if((rat.speedRat<this.speedCat)&&(!rat.isDead)){
+             return true;
+         }
+     };
+     this.eatRat = function (rat,num) {
+         if((this.catchRat(rat))&& (!rat.isDead)){
+             rat.isDead = true;
+             this.weightCat += rat.weightRat;
+             arrRat.splice(num,1);
+             alert('ngon qua !' + this.nameCat + ' an chuot ' + rat.nameRat)
+         }
+         else
+             alert(this.nameCat + ' khong an duoc chuot '+ rat.nameRat);
+     }
+
+ }
+ let arrRat =[];
+ function inputRat() {
+     let n = parseInt(prompt('nhap so chuot: '));
+     for( let i = 0; i < n ; i++){
+         let newRat = new Rat();
+        newRat.nameRat = prompt(' Ten chuot ' + (i+1) + ' la: ');
+        newRat.weightRat = parseInt(prompt(' Can nag chuot ' + (i+1) + ' la: '));
+        newRat.speedRat = parseInt(prompt(' Toc do chuot ' + (i+1) + ' la: '));
+        arrRat.push(newRat);
+
+     }
+ }
+ let arrCat = [];
+ function inputCat() {
+     let m = parseInt(prompt(' nhap m con meo : '));
+     for (let j=0; j< m ; j++){
+         let newCat = new Cat();
+         newCat.nameCat = prompt(' Ten meo ' + (j+1) + ' la: ');
+         newCat.weightCat = parseInt(prompt(' Can nag meo ' + (j+1) + ' la: '));
+         newCat.speedCat = parseInt(prompt(' Toc do meo ' + (j+1) + ' la: '));
+         arrCat.push(newCat);
+
+     }
+
+ }
+ //sap xep cac con meo theo toc do
+ function sortCat() {
+
+         arrCat.sort(function (a,b){return a.speedCat - b.speedCat});
+         arrCat.reverse();
+ }
+
+ // //sap xep cac con chuot theo toc do
+ function sortRat() {
+
+         arrRat.sort(function (a,b){return a.speedRat - b.speedRat});
+
+ }
+
+
+ // Ham meo bat ta ca chuot
+ let check1 = 0;
+ let check2 = 0;
+ let n = 0;
+ function catchAllRat() {
+     sortCat();
+     sortRat();
+    //an toan bo chuot
+     for (let m = 0 ; m < arrCat.length ; m++ ){
+         if(!checkAllRatDead(arrRat)&&(n<arrRat.length)){
+                 arrCat[m].eatRat(arrRat[n],n);
+         }
+         else alert('chuot da bi an het !');
+
+     }
+
+ }
+ // Ham check toan bo chuot da duoc bat het chua ( bang thuoc tinh Rat.isDead )
+ function checkAllRatDead(arr) {
+     let count = 0;
+     for (let i = 0; i < arr.length ; i ++){
+         if (arr[i].isDead){
+             count +=1;
+         }
+     }
+     if(count === arr.length)
+     {
+         return true ;
+     }
+ }
+</script>
+</body>
+</html>
